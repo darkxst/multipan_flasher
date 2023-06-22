@@ -52,4 +52,4 @@ In case you've found a bug, please [open an issue on our GitHub][issue].
 [issue]: https://github.com/home-assistant/addons/issues
 
 [addon-badge]: https://my.home-assistant.io/badges/supervisor_addon.svg
-[addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=9dfead7b_test_flasher&repository_url=https%3A%2F%2Fgithub.com%2Fdarkxst%2Ftest-addon
+[addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=00e2fc12_multipan_flasher&repository_url=https%3A%2F%2Fgithub.com%2Fdarkxst%2Fmultipan_flasher

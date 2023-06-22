@@ -1,18 +1,7 @@
 # Changelog
 
-## 0.0.4
+## 0.0.9
 
-- deploy with workflow
-
-## 0.0.3
-
-- Start on boot
+- Initial version forked from silabs-flasher addon
+- Include RCP Multipan 4.3.0 images
 - Stop/Start Silabs Multiprotocol addon
-
-## 0.0.2
-
-- Add ZB-GW04 support
-
-## 0.0.1
-
-- initial version forked from silabs-flasher addon
