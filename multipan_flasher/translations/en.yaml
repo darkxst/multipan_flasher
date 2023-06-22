@@ -11,6 +11,9 @@ configuration:
   flow_control:
     name: Hardware flow control
     description: Enable hardware flow control for serial port.
+  hardware:
+    name: Device model
+    description: The model of Silicon Labs radio.
   firmware_url:
     name: Firmware URL
     description: >-

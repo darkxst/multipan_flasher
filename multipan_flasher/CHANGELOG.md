@@ -1,11 +1,18 @@
 # Changelog
 
-## 0.1.1
+## 0.0.4
 
-- Fix firmware installation from URL
-- Exit add-on after flashing completed
-- Allow to start universal-silabs-flasher in verbose mode
+- deploy with workflow
 
-## 0.1.0
+## 0.0.3
 
-- initial version
+- Start on boot
+- Stop/Start Silabs Multiprotocol addon
+
+## 0.0.2
+
+- Add ZB-GW04 support
+
+## 0.0.1
+
+- initial version forked from silabs-flasher addon

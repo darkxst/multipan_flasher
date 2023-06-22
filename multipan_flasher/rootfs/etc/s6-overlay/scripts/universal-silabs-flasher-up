@@ -12,9 +12,21 @@ declare firmware
 declare verbose
 declare usb_device_path
 declare usb_manufacturer
+declare usb_vendor
 declare usb_product
+declare usb_product_id
 declare gpio_reset_flag
 declare exit_status
+declare sdk
+declare silabs
+
+silabs=$(bashio::api.supervisor GET "/addons" false \
+  'first(.addons[] | select(.state == "started" and (.slug | contains("silabs_multiprotocol")))) .slug')
+
+if [ ! -z "$silabs" ]; then
+    bashio::log.info "Stopping ${silabs} addon"
+    bashio::addon.stop $silabs
+fi
 
 function cleanup() {
     exit_status=$?
@@ -32,13 +44,8 @@ function exit_no_firmware {
 
 device=$(bashio::config 'device')
 bootloader_baudrate=$(bashio::config 'bootloader_baudrate')
-
-if [ -d /sys/devices/platform/soc/fe201800.serial/tty/ttyAMA1 ] && [ "${device}" == "/dev/ttyAMA1" ]; then
-    bashio::log.info "Detected Home Assistant Yellow"
-    gpio_reset_flag="--yellow-gpio-reset"
-else
-    gpio_reset_flag=""
-fi
+gpio_reset_flag=""
+sdk="4.3.0"
 
 if bashio::config.has_value 'firmware_url'; then
     curl --silent -L -o "/root/firmware.gbl" "$(bashio::config 'firmware_url')"
@@ -49,32 +56,45 @@ if bashio::config.has_value 'firmware_url'; then
 
     firmware="firmware.gbl"
 else
-    # Assume to run on Yellow if UART4 is mapped to ttyAMA1
-    if [ -d /sys/devices/platform/soc/fe201800.serial/tty/ttyAMA1 ] && [ "${device}" == "/dev/ttyAMA1" ]; then
-        firmware="NabuCasa_Yellow_EZSP_v7.2.2.0_PA32_ncp-uart-hw_115200.gbl"
-    else
-        # Check device manufacturer/product information
-        usb_device_path=$(realpath /sys/class/tty/$(readlink /sys/class/tty/$(basename ${device}))/../../../../)
-        if [ ! -f "${usb_device_path}/idProduct" ]; then
-            bashio::log.info "The selected serial port is not a USB device."
-            exit_no_firmware
-        fi
+    # Check device manufacturer/product information
+    usb_device_path=$(realpath /sys/class/tty/$(readlink /sys/class/tty/$(basename ${device}) | sed 's:/[^/]*tty[^/]*::g' )/../)
+    if [ ! -f "${usb_device_path}/idProduct" ]; then
+        bashio::log.info "The selected serial port is not a USB device."
+        exit_no_firmware
+    fi
 
-        if [ ! -f "${usb_device_path}/manufacturer" ] || [ ! -f "${usb_device_path}/product" ]; then
-            bashio::log.info "USB device is missing manufacturer or product name."
-            exit_no_firmware
-        fi
-
+    if [ ! -f "${usb_device_path}/product" ]; then
+        bashio::log.info "USB device is missing manufacturer or product name."
+        exit_no_firmware
+    fi
+    usb_product=$(cat "${usb_device_path}/product")
+    usb_vendor=$(cat "${usb_device_path}/idVendor")
+    usb_product_id=$(cat "${usb_device_path}/idProduct")
+    if [ -f "${usb_device_path}/manufacturer" ]; then
         usb_manufacturer=$(cat "${usb_device_path}/manufacturer")
-        usb_product=$(cat "${usb_device_path}/product")
+    else
+        usb_manufacturer=""
+    fi
 
-        bashio::log.info "Checking ${device} identifying ${usb_product} from ${usb_manufacturer}."
-        if [[ "${usb_manufacturer}" == "Nabu Casa" && "${usb_product}" == "SkyConnect"* ]]; then
-            firmware="NabuCasa_SkyConnect_EZSP_v7.2.2.0_ncp-uart-hw_115200.gbl"
-        else
-            exit_no_firmware
+    bashio::log.info "Checking ${device} identifying ${usb_product} from ${usb_manufacturer}."
+    if [[ "${usb_manufacturer}" == "ITEAD" && "${usb_product}" == "SONOFF Zigbee 3.0 USB Dongle Plus V2" ]]; then
+        bashio::log.info "Detected Sonoff ZBDongle-E"
+        firmware="rcp-uart-802154-v${sdk}-zbdonglee-460800.gbl"
+        #gpio_reset_flag="--sonoff-reset"
+    # usb id 1a86:7523 CH340
+    elif [[ "${usb_vendor}" == "1a86" && "${usb_product_id}" == "7523" ]]; then
+        bashio::log.info "Selecting firmware for selected model"
+        if bashio::config.has_value 'hardware'; then
+            if bashio::config.equals 'hardware' 'zb-gw04-1v1'; then
+                firmware="rcp-uart-802154-v${sdk}-zb-gw04-1v1-230400.gbl"
+            elif bashio::config.equals 'hardware' 'zb-gw04-1v2'; then
+                firmware="rcp-uart-802154-v${sdk}-zb-gw04-1v2-230400.gbl"
+            elif bashio::config.equals 'hardware' 'elelabs'; then
+                firmware="rcp-uart-802154-v${sdk}-elelabs-460800.gbl"
+            fi
         fi
-        gpio_reset_flag=""
+    else
+        exit_no_firmware
     fi
 fi
 
@@ -86,6 +106,10 @@ fi
 bashio::log.info "Starting universal-silabs-flasher with ${device} (bootloader baudrate ${bootloader_baudrate})"
 universal-silabs-flasher ${verbose} --device ${device} \
      --bootloader-baudrate "${bootloader_baudrate}" \
-     flash ${gpio_reset_flag} --force --firmware "/root/${firmware}"
+     flash ${gpio_reset_flag} --ensure-exact-version  --allow-cross-flashing --firmware "/root/${firmware}"
 
+if [ ! -z "$silabs" ]; then
+    bashio::log.info "Starting ${silabs} addon"
+    bashio::addon.start $silabs
+fi
 

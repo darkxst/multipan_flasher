@@ -2,8 +2,8 @@
 
 Silicon Labs Flasher add-on to flash Silicon Labs based radios.
 
-By default this add-on flashes the firmware to use Zigbee (Silicon
-Labs EmberZNet Zigbee stack).
+By default this add-on flashes the community built firmware to use MultiPan (Silicon
+Labs Multiprotocol Addon). It will enable automatic updates for supported dongles.
 
 **NOTE:** Make sure no other add-on or integration is using the radio. In
 particular disable the Zigbee Home Automation integration and the Silicon Labs
@@ -18,8 +18,7 @@ Multiprotocol add-on.
 ## About
 
 This add-on allows you to flash firmwares using the Gecko Bootloader file format
-(gbl). By default it comes with firmware for Home Assistant SkyConnect and
-Home Assistant Yellow to flash Zigbee.
+(gbl). By default it comes with firmware for Sonoff ZBDongle-E and Easyiot ZB-GW04 to flash MultiPan RCP firmware.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
