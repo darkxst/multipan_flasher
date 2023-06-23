@@ -80,7 +80,7 @@ else
     if [[ "${usb_manufacturer}" == "ITEAD" && "${usb_product}" == "SONOFF Zigbee 3.0 USB Dongle Plus V2" ]]; then
         bashio::log.info "Detected Sonoff ZBDongle-E"
         firmware="rcp-uart-802154-v${sdk}-zbdonglee-460800.gbl"
-        #gpio_reset_flag="--sonoff-reset"
+        gpio_reset_flag="--sonoff-reset"
     # usb id 1a86:7523 CH340
     elif [[ "${usb_vendor}" == "1a86" && "${usb_product_id}" == "7523" ]]; then
         bashio::log.info "Selecting firmware for selected model"
