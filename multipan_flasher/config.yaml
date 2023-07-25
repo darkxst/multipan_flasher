@@ -4,7 +4,7 @@ slug: multipan_flasher
 name: Multipan Flasher
 description: Silicon Labs multipan firmware flasher add-on
 url: >
-  https://github.com/darkxst/test-addon/tree/main/multipan_flasher
+  https://github.com/darkxst/multipan_flasher/tree/main/multipan_flasher
 arch:
   - aarch64
   - amd64
