@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+ - Add support for Elelabs Raspi shield
+ - Cleanup unused options
+
 ## 0.1.0
 
 - Bump Universal-silabs-flasher to 0.0.13
