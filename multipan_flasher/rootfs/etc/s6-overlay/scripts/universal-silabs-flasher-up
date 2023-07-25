@@ -55,8 +55,11 @@ if bashio::config.has_value 'firmware_url'; then
     fi
 
     firmware="firmware.gbl"
+elif [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
+        && bashio::config.equals 'hardware' 'elelabs'; then
+    firmware="rcp-uart-802154-v${sdk}-elelabs-460800.gbl"
 else
-    # Check device manufacturer/product information
+    # Check USB device manufacturer/product information
     usb_device_path=$(realpath /sys/class/tty/$(readlink /sys/class/tty/$(basename ${device}) | sed 's:/[^/]*tty[^/]*::g' )/../)
     if [ ! -f "${usb_device_path}/idProduct" ]; then
         bashio::log.info "The selected serial port is not a USB device."
