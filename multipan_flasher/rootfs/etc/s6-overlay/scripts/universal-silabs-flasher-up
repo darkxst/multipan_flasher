@@ -20,13 +20,8 @@ declare exit_status
 declare sdk
 declare silabs
 
-silabs=$(bashio::api.supervisor GET "/addons" false \
-  'first(.addons[] | select(.state == "started" and (.slug | contains("silabs_multiprotocol")))) .slug')
 
-if [ ! -z "$silabs" ]; then
-    bashio::log.info "Stopping ${silabs} addon"
-    bashio::addon.stop $silabs
-fi
+
 
 function cleanup() {
     exit_status=$?
@@ -99,6 +94,14 @@ else
     else
         exit_no_firmware
     fi
+fi
+
+silabs=$(bashio::api.supervisor GET "/addons" false \
+  'first(.addons[] | select(.state == "started" and (.slug | contains("silabs_multiprotocol")))) .slug')
+
+if [ ! -z "$silabs" ]; then
+    bashio::log.info "Stopping ${silabs} addon"
+    bashio::addon.stop $silabs
 fi
 
 verbose=""
