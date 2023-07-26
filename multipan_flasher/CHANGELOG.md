@@ -1,8 +1,10 @@
 # Changelog
 
 ## 0.1.1
+
  - Add support for Elelabs Raspi shield
  - Cleanup unused options
+ - Drop custom URL, use the official Silabs Flasher addon if you need this
 
 ## 0.1.0
 

@@ -42,15 +42,7 @@ bootloader_baudrate=$(bashio::config 'bootloader_baudrate')
 gpio_reset_flag=""
 sdk="4.3.0"
 
-if bashio::config.has_value 'firmware_url'; then
-    curl --silent -L -o "/root/firmware.gbl" "$(bashio::config 'firmware_url')"
-    if [ ! -f "/root/firmware.gbl" ]; then
-        bashio::log.warning "Downloading firmware failed"
-        exit 0
-    fi
-
-    firmware="firmware.gbl"
-elif [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
+if [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
         && bashio::config.equals 'hardware' 'elelabs'; then
     firmware="rcp-uart-802154-v${sdk}-elelabs-460800.gbl"
 else
