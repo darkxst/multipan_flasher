@@ -1,10 +1,10 @@
 ---
-version: 0.1.0
+version: 0.1.1
 slug: multipan_flasher
 name: Multipan Flasher
 description: Silicon Labs multipan firmware flasher add-on
 url: >
-  https://github.com/darkxst/test-addon/tree/main/multipan_flasher
+  https://github.com/darkxst/multipan_flasher/tree/main/multipan_flasher
 arch:
   - aarch64
   - amd64
@@ -18,14 +18,11 @@ init: false
 options:
   device: null
   bootloader_baudrate: "115200"
-  flow_control: true
   verbose: false
 schema:
   device: device(subsystem=tty)?
-  bootloader_baudrate: list(57600|115200|230400|460800|921600)
-  flow_control: bool?
+  bootloader_baudrate: list(57600|115200)
   hardware: list(elelabs|zbdongle-e|zb-gw04-1v1|zb-gw04-1v2)?
-  firmware_url: str?
   verbose: bool?
 stage: experimental
 startup: application

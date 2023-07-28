@@ -20,13 +20,8 @@ declare exit_status
 declare sdk
 declare silabs
 
-silabs=$(bashio::api.supervisor GET "/addons" false \
-  'first(.addons[] | select(.state == "started" and (.slug | contains("silabs_multiprotocol")))) .slug')
 
-if [ ! -z "$silabs" ]; then
-    bashio::log.info "Stopping ${silabs} addon"
-    bashio::addon.stop $silabs
-fi
+
 
 function cleanup() {
     exit_status=$?
@@ -45,18 +40,13 @@ function exit_no_firmware {
 device=$(bashio::config 'device')
 bootloader_baudrate=$(bashio::config 'bootloader_baudrate')
 gpio_reset_flag=""
-sdk="4.3.0"
+sdk="4.3.1"
 
-if bashio::config.has_value 'firmware_url'; then
-    curl --silent -L -o "/root/firmware.gbl" "$(bashio::config 'firmware_url')"
-    if [ ! -f "/root/firmware.gbl" ]; then
-        bashio::log.warning "Downloading firmware failed"
-        exit 0
-    fi
-
-    firmware="firmware.gbl"
+if [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
+        && bashio::config.equals 'hardware' 'elelabs'; then
+    firmware="rcp-uart-802154-v${sdk}-elelabs-460800.gbl"
 else
-    # Check device manufacturer/product information
+    # Check USB device manufacturer/product information
     usb_device_path=$(realpath /sys/class/tty/$(readlink /sys/class/tty/$(basename ${device}) | sed 's:/[^/]*tty[^/]*::g' )/../)
     if [ ! -f "${usb_device_path}/idProduct" ]; then
         bashio::log.info "The selected serial port is not a USB device."
@@ -96,6 +86,14 @@ else
     else
         exit_no_firmware
     fi
+fi
+
+silabs=$(bashio::api.supervisor GET "/addons" false \
+  'first(.addons[] | select(.state == "started" and (.slug | contains("silabs_multiprotocol")))) .slug')
+
+if [ ! -z "$silabs" ]; then
+    bashio::log.info "Stopping ${silabs} addon"
+    bashio::addon.stop $silabs
 fi
 
 verbose=""

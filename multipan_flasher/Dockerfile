@@ -7,9 +7,6 @@ ARG UNIVERSAL_SILABS_FLASHER
 
 RUN \
     set -x \
-    && apk add --no-cache \
-        py3-pip \
-        python3 \
     && pip3 install \
         --no-cache-dir \
         --prefer-binary \
