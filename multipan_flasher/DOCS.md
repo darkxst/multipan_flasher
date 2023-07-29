@@ -55,6 +55,6 @@ In case you've found a bug, please [open an issue on our GitHub][issue].
 [discord]: https://discord.gg/c5DvZ4e
 [forum]: https://community.home-assistant.io
 [reddit]: https://reddit.com/r/homeassistant
-[issue]: https://github.com/darkxst/multipan_flasher/issues
+[issue]: https://github.com/darkxst/silabs-firmware-builder/issues
 [addon-badge]: https://my.home-assistant.io/badges/supervisor_addon.svg
 [addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=00e2fc12_multipan_flasher&repository_url=https%3A%2F%2Fgithub.com%2Fdarkxst%2Fmultipan_flasher

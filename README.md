@@ -27,6 +27,6 @@ In case you've found a bug, please [open an issue on our GitHub][issue].
 [discord]: https://discord.gg/c5DvZ4e
 [forum]: https://community.home-assistant.io
 [i386-shield]: https://img.shields.io/badge/i386-no-red.svg
-[issue]: https://github.com/darkxst/multipan_flasher/issues
+[issue]: https://github.com/darkxst/silabs-firmware-builder/issues
 [repo-badge]: https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg
 [repo]: https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fdarkxst%2Fmultipan_flasher
