@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+ - Fix for Elelabs devices
+
 ## 0.1.1
 
  - Gecko SDK 4.3.1 release
