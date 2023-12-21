@@ -45,6 +45,9 @@ sdk="4.3.1"
 if [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
         && bashio::config.equals 'hardware' 'elelabs'; then
     firmware="rcp-uart-802154-v${sdk}-elelabs-elx0x3-460800.gbl"
+elif [ -d /sys/devices/platform/ff590000.serial/tty/ttyS4 ] && [ "${device}" == "/dev/ttyS4" ] \
+        && bashio::config.equals 'hardware' 'ihost'; then
+    firmware="rcp-uart-802154-v${sdk}-zbdonglee-460800.gbl"
 else
     # Check USB device manufacturer/product information
     usb_device_path=$(realpath /sys/class/tty/$(readlink /sys/class/tty/$(basename ${device}) | sed 's:/[^/]*tty[^/]*::g' )/../)

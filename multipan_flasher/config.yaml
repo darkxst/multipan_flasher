@@ -22,7 +22,7 @@ options:
 schema:
   device: device(subsystem=tty)?
   bootloader_baudrate: list(57600|115200)
-  hardware: list(elelabs|zbdongle-e|zb-gw04-1v1|zb-gw04-1v2)?
+  hardware: list(elelabs|ihost|zbdongle-e|zb-gw04-1v1|zb-gw04-1v2)?
   verbose: bool?
 stage: experimental
 startup: application
