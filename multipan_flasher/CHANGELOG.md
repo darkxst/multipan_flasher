@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+ - Bump Universal-silabs-flasher to 0.0.15
+ - Support Sonoff iHost
+
 ## 0.1.2
 
  - Fix for Elelabs devices
