@@ -10,6 +10,7 @@ Labs Multiprotocol Addon). It will enable automatic updates for supported dongle
 ### Supported Devices
 Currently supported devices for which firmware builds are included:
   * Sonoff ZBDongle-E
+  * Sonoff iHost
   * Easyiot ZB-GW04 v1.1
   * Easyiot ZB-GW04 v1.2
   * Elelabs USB ELU013
