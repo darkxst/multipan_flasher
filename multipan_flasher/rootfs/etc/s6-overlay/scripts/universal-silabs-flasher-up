@@ -40,7 +40,7 @@ function exit_no_firmware {
 device=$(bashio::config 'device')
 bootloader_baudrate=$(bashio::config 'bootloader_baudrate')
 gpio_reset_flag=""
-sdk="4.3.1"
+sdk="4.4.0"
 
 if [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}" == "/dev/ttyAMA0" ] \
         && bashio::config.equals 'hardware' 'elelabs'; then
