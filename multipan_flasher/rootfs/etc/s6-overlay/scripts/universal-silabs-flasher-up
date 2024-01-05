@@ -47,6 +47,7 @@ if [ -d /sys/devices/platform/soc/fe201000.serial/tty/ttyAMA0 ] && [ "${device}"
     firmware="rcp-uart-802154-v${sdk}-elelabs-elx0x3-460800.gbl"
 elif [ -d /sys/devices/platform/ff590000.serial/tty/ttyS4 ] && [ "${device}" == "/dev/ttyS4" ] \
         && bashio::config.equals 'hardware' 'ihost'; then
+    gpio_reset_flag="--bootloader-reset ihost"
     firmware="rcp-uart-802154-v${sdk}-zbdonglee-460800.gbl"
 else
     # Check USB device manufacturer/product information
@@ -73,7 +74,7 @@ else
     if [[ "${usb_manufacturer}" == "ITEAD" && "${usb_product}" == "SONOFF Zigbee 3.0 USB Dongle Plus V2" ]]; then
         bashio::log.info "Detected Sonoff ZBDongle-E"
         firmware="rcp-uart-802154-v${sdk}-zbdonglee-460800.gbl"
-        gpio_reset_flag="--sonoff-reset"
+        gpio_reset_flag="--bootloader-reset sonoff"
     # usb id 1a86:7523 CH340
     elif [[ "${usb_vendor}" == "1a86" && "${usb_product_id}" == "7523" ]]; then
         bashio::log.info "Selecting firmware for selected model"
@@ -107,7 +108,8 @@ fi
 bashio::log.info "Starting universal-silabs-flasher with ${device} (bootloader baudrate ${bootloader_baudrate})"
 universal-silabs-flasher ${verbose} --device ${device} \
      --bootloader-baudrate "${bootloader_baudrate}" \
-     flash ${gpio_reset_flag} --ensure-exact-version  --allow-cross-flashing --firmware "/root/${firmware}"
+     ${gpio_reset_flag} \
+     flash  --ensure-exact-version  --allow-cross-flashing --firmware "/root/${firmware}"
 
 if [ ! -z "$silabs" ]; then
     bashio::log.info "Starting ${silabs} addon"
