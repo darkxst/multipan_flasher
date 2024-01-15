@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+ - Bump Universal-silabs-flasher to 0.0.16
+ - Geck SDK 4.4.0 release
+ - ⚠ WARNING: Zigbee2MQTT is not yet compatible with this release ⚠
+
 ## 0.1.3
  - Bump Universal-silabs-flasher to 0.0.15
  - Support Sonoff iHost
