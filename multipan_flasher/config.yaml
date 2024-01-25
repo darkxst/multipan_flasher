@@ -1,5 +1,5 @@
 ---
-version: 0.2.0
+version: 0.2.1
 slug: multipan_flasher
 name: Multipan Flasher
 description: Silicon Labs multipan firmware flasher add-on

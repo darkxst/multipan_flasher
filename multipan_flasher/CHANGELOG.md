@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+ - Revert Multipan firmware to 4.3.1 to sync up with Multiprotocol addon 2.4.4
+ - Bump universal SiLabs flasher to 0.0.17
+
 ## 0.2.0
  - Bump Universal-silabs-flasher to 0.0.16
  - Geck SDK 4.4.0 release
